@@ -38,9 +38,12 @@
     "schema": "src/database/schema.prisma"
   },
   "lint-staged": {
-    "src/**/*.?(js|jsx|ts|tsx|json)": [
+    "?(test|src)/**/*.?(js|jsx|ts|tsx|json)": [
       "prettier --write",
       "eslint"
+    ],
+    "?(test|src)/**/*.?(css)": [
+      "prettier --write"
     ]
   }
 }
