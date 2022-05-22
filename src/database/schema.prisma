@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./sqlite/healthcare_data.db"
+  url      = env("SQLITE_PATH")
 }
 
 model HospitalProcedure {

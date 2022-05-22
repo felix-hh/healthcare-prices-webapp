@@ -8,10 +8,7 @@ export const listHospitalProcedures = async (
   hospitalNames?: string[]
 ): Promise<TableItem<HospitalProcedure>[]> => {
   const request = { cptCodes, hospitalNames }
-  const response = await axios.post(
-    "http://localhost:3000/api/hospitalProcedures",
-    request
-  )
+  const response = await axios.post("/api/hospitalProcedures", request)
   const json: ListHospitalProceduresResponse = response.data
   const hospitalProcedures = json.hospitalProcedures.map((item) => ({
     ...item,
