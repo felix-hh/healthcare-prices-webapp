@@ -18,6 +18,6 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint"],
   rules: {
-    "no-warning-comments": [2, { terms: ["//"] }],
+    "no-warning-comments": [2, { terms: ["XXX"],  }],
   },
 };

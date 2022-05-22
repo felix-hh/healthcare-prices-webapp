@@ -1,10 +1,10 @@
-import Layout from "antd/lib/layout/layout";
-import Head from "next/head";
-import { APPLICATION_WINDOW_TITLE } from "../utils/AppConstants";
+import Layout from "antd/lib/layout/layout"
+import Head from "next/head"
+import { APPLICATION_WINDOW_TITLE } from "../utils/AppConstants"
 
 type AppLayoutProps = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 export const AppLayout = ({ children }: AppLayoutProps) => (
   <Layout>
@@ -13,4 +13,4 @@ export const AppLayout = ({ children }: AppLayoutProps) => (
     </Head>
     {children}
   </Layout>
-);
+)

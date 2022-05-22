@@ -1,16 +1,25 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from "next";
-import { HospitalProcedure, PrismaClient } from "@prisma/client";
+import type { NextApiRequest, NextApiResponse } from "next"
+import { ListHospitalProceduresResponse } from "../../../model/DataModel"
+import { serverListHospitalProcedures } from "../../../services/server/ServerListHospitalProcedures"
 
-type Data = {
-  hospitalProcedures: HospitalProcedure[];
-};
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse<ListHospitalProceduresResponse>
+) => {
+  let { cptCodes, hospitalNames } = req.body
+  cptCodes =
+    Array.isArray(cptCodes) && cptCodes.length > 0 ? cptCodes : undefined
+  hospitalNames =
+    Array.isArray(hospitalNames) && hospitalNames.length > 0
+      ? hospitalNames
+      : undefined
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  const prisma = new PrismaClient();
-  const hospitalProcedures = await prisma.hospitalProcedure.findMany();
+  const hospitalProcedures = await serverListHospitalProcedures(
+    cptCodes,
+    hospitalNames
+  )
 
-  res.status(200).json({ hospitalProcedures });
-};
+  res.status(200).json({ hospitalProcedures })
+}
 
-export default handler;
+export default handler

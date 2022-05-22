@@ -1,3 +1,4 @@
+/* General */
 html,
 body {
   padding: 0;
@@ -6,11 +7,72 @@ body {
     Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, sans-serif;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+/* Color defaults */
+
+/* Spacing defaults */
+
+/* Links */
+
 a {
-  color: inherit;
+  color: blue;
   text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
+a:hover,
+a:focus,
+a:active {
+  text-decoration: underline;
+}
+
+/* Headers */
+
+h1 {
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 900;
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 900;
+}
+
+h3 {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 900;
+}
+
+h4 {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 900;
+}
+
+h5 {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 900;
+}
+
+/* Text */
+
+p {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+small {
+  font-size: 12px;
+  line-height: 18px;
+  color: gray;
+}
+
+.counter {
+  color: gray;
 }
