@@ -9,10 +9,11 @@ import {
   serverListDistinctHospitalNames,
   serverListHospitalProcedures,
 } from "../../services/server/ServerListHospitalProcedures"
+import { PAGE_SIZE_LIST_HOSPITAL_PROCEDURES } from "../../utils/AppConstants"
 
 type HospitalProceduresProps = {
   hospitalProcedures: HospitalProcedure[]
-  cptCodes: number[]
+  cptCodes: string[]
   hospitalNames: string[]
 }
 
@@ -41,12 +42,12 @@ const HospitalProcedures: NextPage<HospitalProceduresProps> = (props) => {
   const [selectedHospitalNames, setSelectedHospitalNames] = useState<
     Set<string>
   >(new Set())
-  const [selectedCptCodes, setSelectedCptCodes] = useState<Set<number>>(
+  const [selectedCptCodes, setSelectedCptCodes] = useState<Set<string>>(
     new Set()
   )
 
   const fetchHospitalProcedures = useCallback(
-    (cptCodes: number[], hospitalNames: string[]) => {
+    (cptCodes: string[], hospitalNames: string[]) => {
       const fetchData = async () => {
         const data = await listHospitalProcedures(cptCodes, hospitalNames)
         setHospitalProcedures(data)
@@ -73,8 +74,13 @@ const HospitalProcedures: NextPage<HospitalProceduresProps> = (props) => {
           title={
             <Space direction="vertical" size={[1, 10]}>
               <h2>
-                Hospital procedures
-                <span className="counter">{` (${hospitalProcedures.length})`}</span>{" "}
+                {`Hospital procedures`}
+                <span className="counter">{` (${hospitalProcedures.length}${
+                  hospitalProcedures.length ===
+                  PAGE_SIZE_LIST_HOSPITAL_PROCEDURES
+                    ? "+"
+                    : ""
+                })`}</span>{" "}
               </h2>
               <small>
                 The data is presented as reported by the hospitals without

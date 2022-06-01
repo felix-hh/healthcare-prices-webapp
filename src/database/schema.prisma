@@ -10,7 +10,7 @@ datasource db {
 model HospitalProcedure {
   id             Int     @id @default(autoincrement())
   hospital_name  String
-  cpt_code       Int
+  cpt_code       String
   procedure_name String?
   average_charge Int?
 }

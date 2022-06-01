@@ -9,5 +9,5 @@ export type ListDistinctHospitalNames = {
 }
 
 export type ListDistinctCPTCodes = {
-  cptCodes: number[]
+  cptCodes: string[]
 }

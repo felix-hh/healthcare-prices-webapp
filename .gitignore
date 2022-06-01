@@ -30,6 +30,10 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+node_modules
 
 # caches
 .eslintcache
+
+# database
+src/database/sqlite/

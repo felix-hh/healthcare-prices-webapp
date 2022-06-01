@@ -4,7 +4,7 @@ import { ListHospitalProceduresResponse } from "../../model/DataModel"
 import { TableItem } from "../../model/TableModel"
 
 export const listHospitalProcedures = async (
-  cptCodes?: number[],
+  cptCodes?: string[],
   hospitalNames?: string[]
 ): Promise<TableItem<HospitalProcedure>[]> => {
   const request = { cptCodes, hospitalNames }

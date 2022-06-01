@@ -25,7 +25,7 @@ export const hospitalProceduresColumnDefinitions: TableColumnsType<HospitalProce
       key: "cpt_code",
       align: "right",
       width: 120,
-      sorter: (a, b) => a.cpt_code - b.cpt_code,
+      sorter: getDefaultCompareFn("cpt_code"),
     },
     {
       title: "Procedure Name",

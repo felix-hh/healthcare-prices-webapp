@@ -36,6 +36,8 @@ export const defaultCompare: CompareFn<any> = (x, y) => {
   const xString = toString(x).toUpperCase()
   const yString = toString(y).toUpperCase()
 
+  if (xString == yString) return 0
+
   if (xString < yString) return -1
 
   if (xString > yString) return 1

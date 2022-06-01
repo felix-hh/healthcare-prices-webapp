@@ -2,7 +2,7 @@ import { PAGE_SIZE_LIST_HOSPITAL_PROCEDURES } from "./../../utils/AppConstants"
 import { prismaClient } from "./Database"
 
 export const serverListHospitalProcedures = async (
-  cptCodes?: number[],
+  cptCodes?: string[],
   hospitalNames?: string[]
 ) => {
   let hospitalProceduresData = await prismaClient.hospitalProcedure.findMany({
@@ -51,5 +51,5 @@ export const serverListDistinctCPTCodes = async () => {
       cpt_code: "asc",
     },
   })
-  return cptCodes.map((item) => item.cpt_code)
+  return cptCodes.map((item) => String(item.cpt_code).padStart(5, "0"))
 }
