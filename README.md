@@ -55,7 +55,6 @@ ssh ec2-user@your-public-ip -i your-key-file
 To build a docker image (with working directory on this repo)
 
 ```shell
-docker build -t hippo-webapp .
+sudo docker build -t hippo-webapp .
 ```
-
 

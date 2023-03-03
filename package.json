@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 80",
+    "dev": "next dev -p 8080",
     "build": "npm install && next build",
     "start": "next start -p 80",
     "clean": "rm -rf node_modules .next out package-lock.json",
@@ -14,7 +14,7 @@
     "prisma": "npx prisma db pull && npx prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "^3.14.0",
+    "@prisma/client": "3.14.0",
     "antd": "^4.20.5",
     "axios": "^0.27.2",
     "next": "12.1.6",
@@ -36,7 +36,7 @@
     "husky": "^8.0.1",
     "lint-staged": "^12.4.1",
     "prettier": "^2.6.2",
-    "prisma": "^3.14.0",
+    "prisma": "3.14.0",
     "typescript": "^4.6.4"
   },
   "prisma": {

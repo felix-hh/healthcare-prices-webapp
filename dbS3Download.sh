@@ -1,0 +1,1 @@
+aws s3 cp s3://hippo-sight-healthcare/healthcare_data.db ./src/database/sqlite/healthcare_data.db
