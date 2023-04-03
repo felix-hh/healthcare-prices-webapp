@@ -1,5 +1,17 @@
 # Install dependencies only when needed
-FROM node:16.2-alpine AS deps
+# change with the Node.js version of your choice
+ARG NODE_VERSION="16"
+
+# change with the Linux Alpine version of your choice
+ARG ALPINE_VERSION="3.16"
+
+FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} AS deps
+
+# following https://github.com/prisma/prisma/issues/16553#issuecomment-1353302617
+RUN apk update
+# RUN apk update \
+#   && apk add openssl1.1-compat
+
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
@@ -11,7 +23,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 # Rebuild the source code only when needed
-FROM node:16.2-alpine AS builder
+FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -29,7 +41,7 @@ RUN npm run prisma
 RUN npm run build
 
 # Production image, copy all the files and run next
-FROM node:16-alpine AS runner
+FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
