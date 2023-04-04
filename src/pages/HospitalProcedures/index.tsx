@@ -1,5 +1,6 @@
 import { HospitalProcedure } from "@prisma/client"
-import { Card, Col, Row, Select, Space, Table } from "antd"
+import { Card, Col, Row, Select, Space, Table, Collapse } from "antd"
+import { SearchOutlined } from "@ant-design/icons"
 import type { NextPage } from "next"
 import { useCallback, useEffect, useState } from "react"
 import { hospitalProceduresColumnDefinitions } from "../../components/ListHospitalProcedures/HospitalProceduresTableConfig"
@@ -10,6 +11,8 @@ import {
   serverListHospitalProcedures,
 } from "../../services/server/ServerListHospitalProcedures"
 import { PAGE_SIZE_LIST_HOSPITAL_PROCEDURES } from "../../utils/AppConstants"
+
+import { ProceduresFromPromptInput } from "../../components/ListHospitalProcedures/ProceduresFromPromptInput"
 
 type HospitalProceduresProps = {
   hospitalProcedures: HospitalProcedure[]
@@ -69,75 +72,98 @@ const HospitalProcedures: NextPage<HospitalProceduresProps> = (props) => {
 
   return (
     <Row>
-      <Space align="center" direction="horizontal" size={[100, 0]}>
-        <Card
-          title={
-            <Space direction="vertical" size={[1, 10]}>
-              <h2>
-                {`Hospital procedures`}
-                <span className="counter">{` (${hospitalProcedures.length}${
-                  hospitalProcedures.length ===
-                  PAGE_SIZE_LIST_HOSPITAL_PROCEDURES
-                    ? "+"
-                    : ""
-                })`}</span>{" "}
-              </h2>
-              <small>
-                The data is presented as reported by the hospitals without
-                further confirmation and might be inaccurate.{" "}
-              </small>
-
-              <Row>
-                <Col span={12}>
-                  <Select
-                    placeholder="Search CPT Codes..."
-                    showSearch
-                    mode="multiple"
-                    style={{ width: "100%" }}
-                    onChange={(value) =>
-                      setSelectedCptCodes(new Set([...value]))
+      <Space direction="vertical">
+        <Space align="center" direction="horizontal" size={[100, 0]}>
+          <Card
+            title={
+              <Space direction="vertical" size={[1, 10]}>
+                <h2>
+                  {`Hospital procedures`}
+                  <span className="counter">{` (${hospitalProcedures.length}${
+                    hospitalProcedures.length ===
+                    PAGE_SIZE_LIST_HOSPITAL_PROCEDURES
+                      ? "+"
+                      : ""
+                  })`}</span>{" "}
+                </h2>
+                <Collapse
+                  bordered={false}
+                  expandIconPosition="right"
+                  expandIcon={() => (
+                    <SearchOutlined
+                      style={{ fontSize: "18px", marginRight: "8px" }}
+                    />
+                  )}
+                >
+                  <Collapse.Panel
+                    header={
+                      <span>
+                        Don{"'"}t know what medical procedure you need? Search
+                        for CPT codes...
+                      </span>
                     }
+                    key="1"
                   >
-                    {cptCodes
-                      .filter((item) => !selectedCptCodes.has(item))
-                      .map((item) => (
-                        <Select.Option key={item} value={item}>
-                          {item}
-                        </Select.Option>
-                      ))}
-                  </Select>
-                </Col>
+                    <ProceduresFromPromptInput />
+                  </Collapse.Panel>
+                </Collapse>
+                <small>
+                  The data is presented as reported by the hospitals without
+                  further confirmation and might be inaccurate.{" "}
+                </small>
 
-                <Col span={12}>
-                  <Select
-                    placeholder="Search hospitals..."
-                    showSearch
-                    mode="multiple"
-                    style={{ width: "100%" }}
-                    onChange={(value) => {
-                      setSelectedHospitalNames(new Set([...value]))
-                    }}
-                  >
-                    {hospitalNames
-                      .filter((item) => !selectedHospitalNames.has(item))
-                      .map((item) => (
-                        <Select.Option key={item} value={item}>
-                          {item}
-                        </Select.Option>
-                      ))}
-                  </Select>
-                </Col>
-              </Row>
-            </Space>
-          }
-          bordered
-        >
-          <Table
-            dataSource={hospitalProcedures}
-            columns={hospitalProceduresColumnDefinitions}
-            rowKey={"id"}
-          />
-        </Card>
+                <Row>
+                  <Col span={12}>
+                    <Select
+                      placeholder="Search CPT Codes..."
+                      showSearch
+                      mode="multiple"
+                      style={{ width: "100%" }}
+                      onChange={(value) =>
+                        setSelectedCptCodes(new Set([...value]))
+                      }
+                    >
+                      {cptCodes
+                        .filter((item) => !selectedCptCodes.has(item))
+                        .map((item) => (
+                          <Select.Option key={item} value={item}>
+                            {item}
+                          </Select.Option>
+                        ))}
+                    </Select>
+                  </Col>
+
+                  <Col span={12}>
+                    <Select
+                      placeholder="Search hospitals..."
+                      showSearch
+                      mode="multiple"
+                      style={{ width: "100%" }}
+                      onChange={(value) => {
+                        setSelectedHospitalNames(new Set([...value]))
+                      }}
+                    >
+                      {hospitalNames
+                        .filter((item) => !selectedHospitalNames.has(item))
+                        .map((item) => (
+                          <Select.Option key={item} value={item}>
+                            {item}
+                          </Select.Option>
+                        ))}
+                    </Select>
+                  </Col>
+                </Row>
+              </Space>
+            }
+            bordered
+          >
+            <Table
+              dataSource={hospitalProcedures}
+              columns={hospitalProceduresColumnDefinitions}
+              rowKey={"id"}
+            />
+          </Card>
+        </Space>
       </Space>
     </Row>
   )

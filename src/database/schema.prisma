@@ -13,4 +13,5 @@ model HospitalProcedure {
   cpt_code       String
   procedure_name String?
   average_charge Int?
+  state String
 }

@@ -11,3 +11,7 @@ export type ListDistinctHospitalNames = {
 export type ListDistinctCPTCodes = {
   cptCodes: string[]
 }
+
+export type ProceduresFromPromptResponse = {
+  modelResponse: string
+}

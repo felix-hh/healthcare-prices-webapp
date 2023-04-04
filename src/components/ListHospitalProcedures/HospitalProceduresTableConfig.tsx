@@ -13,6 +13,13 @@ export const hospitalProceduresColumnDefinitions: TableColumnsType<HospitalProce
       sorter: (a, b) => a.id - b.id,
     },
     {
+      title: "State",
+      dataIndex: "state",
+      key: "state",
+      width: 80,
+      sorter: getDefaultCompareFn("state"),
+    },
+    {
       title: "Hospital Name",
       dataIndex: "hospital_name",
       key: "hospital_name",

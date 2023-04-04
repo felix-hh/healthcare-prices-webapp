@@ -1,5 +1,5 @@
 import { PAGE_SIZE_LIST_HOSPITAL_PROCEDURES } from "./../../utils/AppConstants"
-import { prismaClient } from "./Database"
+import { prismaClient } from "../resources/Database"
 
 export const serverListHospitalProcedures = async (
   cptCodes?: string[],
