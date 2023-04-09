@@ -8,7 +8,7 @@ export async function getMedicalProcedures(
   the procedures along with their CPT codes, and don't indicate any alternatives or optional procedures.`
 
   try {
-    const response: AxiosResponse = await openai.createCompletion({
+    const response: any = await openai.createCompletion({
       model: "text-davinci-003",
       prompt,
       max_tokens: 200,

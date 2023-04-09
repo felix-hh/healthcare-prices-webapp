@@ -11,7 +11,7 @@
     "prepare": "npx husky install",
     "export": "next export",
     "deploy": "npm install && npx next build && npx vercel",
-    "prisma": "npx prisma db pull && npx prisma generate"
+    "prisma": "npx prisma generate"
   },
   "dependencies": {
     "@prisma/client": "3.14.0",
