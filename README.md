@@ -1,50 +1,38 @@
-# Notes from the author
-The project runs in Node v14. 
+# Healthcare Pricing WebApp
 
+## Basic NextJS WebApp Setup
 
----
+### Installing node
+Follow this guide to install `nvm` which will be used to install `node` and `npm` for any version that we want. NVM stands for node version manager and keeps multiple versions of node in the computer without conflicts as well as making installation very easy.
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+https://tecadmin.net/install-nvm-macos-with-homebrew/
 
-## Getting Started
+This project uses Node v16.
 
-First, run the development server:
+### Run the website locally
+Run the following commands
 
-```bash
+```{bash}
+nvm install 16
+nvm use 16
+npm install
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This should give you a basic dev deployment with a link to see your website on the terminal
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Now, to build and do what would be an actual deployment of the website do as follows:
+```{bash}
+npm run prisma # Here you may nead to tweak the output in src/database/schema.prisma
+npm run build
+npm run start
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Cloud deployment (deploy to the internet!)
+### How to start an EC2 instance
+Follow a guide like [this one](https://nzenitram.medium.com/spinning-up-an-ec2-instance-ef7e81044dc4) to spin an EC2 instance. 
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-
----
-
-### How to set up in AWS EC2
-
-Follow a guide like [this one](https://nzenitram.medium.com/spinning-up-an-ec2-instance-ef7e81044dc4) to spin an EC2 instance. A free tier t2 micro instance suffices. 
+I would recommend an Ubuntu instance, with 4GB of RAM and 30GB of disk. Ubuntu is more widely used than Amazon Linux so it's easy to fix the bugs, greater RAM ensures that you'll run into less Out Of Memory errors, so less headaches, and 30GB of disk is more than enough to fit this app.
 
 To connect (note the username is valid for an ubuntu instance): 
 
@@ -52,9 +40,55 @@ To connect (note the username is valid for an ubuntu instance):
 ssh ec2-user@your-public-ip -i your-key-file
 ```
 
-To build a docker image (with working directory on this repo)
+This can also be stored on `.ssh/config` for your convenience.
+
+
+### How to deploy in AWS EC2 (to the entire internet)
+First, ensure that the ports of your instance are open to the internet. It should look as follows.
+
+![AWS EC2 Security Configuration](./ec2-security-config.png)
+
+Note: for good security advice, visit your closest Cybersecurity expert, this is a proof of concept. 
+
+The following code snippet is a good guide of all you need to setup Docker and install this repo on the instance.
+
+1) **Setting up the repo for the first time in AWS EC2**
+```shell
+sudo apt update
+sudo apt install awscli
+# set up nvm
+# https://tecadmin.net/how-to-install-nvm-on-ubuntu-20-04/ 
+sudo apt install curl
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+. ~/.bashrc
+
+nvm install 16
+git clone https://github.com/felix-hh/healthcare-prices-webapp
+aws configure # I use my credentials to get my SQLite database from s3. 
+./dbS3Download.sh
+
+# verify development setup
+cd healthcare-prices-webapp
+npm install && npm run dev
+
+# On a separate terminal
+ssh -N -L 8080:localhost:8080 cloud2 # here cloud2 is defined in ssh config
+```
+2) Setup Docker on the instance
 
 ```shell
+# deploy
+# install docker
+curl -sSL https://get.docker.com/ | sh
 sudo docker build -t hippo-webapp .
+dockerd-rootless-setuptool.sh install
+docker run hello-world # to troubleshoot
 ```
 
+3) Use the existing Dockerfile to deploy an image of our website on port 80 (to the entire internet)
+```shell
+sudo docker build -t hippo-webapp .
+sudo docker run --publish 80:80 -t hippo-webapp
+```
+
+And voila, deployed. Look up the Public IPv4 DNS of your EC2 instance and open it on your browser to see your website. It looks something like this: `ec2-<some-numbers>.<region-code>.compute.amazonaws.com`

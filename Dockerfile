@@ -9,14 +9,10 @@ FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} AS deps
 
 # following https://github.com/prisma/prisma/issues/16553#issuecomment-1353302617
 RUN apk update
-# RUN apk update \
-#   && apk add openssl1.1-compat
 
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
-# COPY package.json yarn.lock ./
-# RUN yarn install --frozen-lockfile
 
 # If using npm with a `package-lock.json` comment out above and use below instead
 COPY package.json package-lock.json ./ 
