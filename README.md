@@ -80,7 +80,6 @@ ssh -N -L 8080:localhost:8080 cloud2 # here cloud2 is defined in ssh config
 # deploy
 # install docker
 curl -sSL https://get.docker.com/ | sh
-sudo docker build -t hippo-webapp .
 dockerd-rootless-setuptool.sh install
 docker run hello-world # to troubleshoot
 ```
